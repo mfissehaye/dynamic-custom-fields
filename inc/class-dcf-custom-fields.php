@@ -32,6 +32,55 @@ class DcfCustomFields {
 				),
 			);
 
+			$meta_boxes[] = array(
+				'id'       => 'clients',
+				'title'    => esc_html__( 'More Options', 'dcf' ),
+				'context'  => 'advanced',
+				'priority' => 'default',
+				'post_types' => array('client'),
+				'autosave' => false,
+				'fields'   => array(
+					array(
+						'id' => $prefix . 'client_featured',
+						'name' => esc_html__( 'Feature this client', 'dcf' ),
+						'type' => 'checkbox',
+						'desc' => esc_html__( 'Featured clients show at the top of the clients page', 'dcf' ),
+					)
+				),
+			);
+
+			$meta_boxes[] = array(
+				'id'       => 'zone_experience_attributes',
+				'title'    => esc_html__( 'More Zone Experience Options', 'dcf' ),
+				'context'  => 'advanced',
+				'priority' => 'default',
+				'post_types' => array('zone-experience'),
+				'autosave' => false,
+				'fields'   => array(
+					array(
+						'id' => $prefix . 'zone_experience_icon',
+						'type' => 'image_advanced',
+						'name' => esc_html__( 'Zone Experience Icon', 'dcf' ),
+					),
+				),
+			);
+
+			$meta_boxes[] = array(
+				'id'       => 'page_attributes',
+				'title'    => esc_html__( 'Page Attributes', 'dcf' ),
+				'context'  => 'advanced',
+				'priority' => 'default',
+				'post_types' => array('page'),
+				'autosave' => false,
+				'fields'   => array(
+					array(
+						'id'   => $prefix . 'page_subtitle',
+						'type' => 'text',
+						'name' => esc_html__( 'Page Subtitle', 'dcf' ),
+					)
+				),
+			);
+
 			return $meta_boxes;
 		} );
 	}

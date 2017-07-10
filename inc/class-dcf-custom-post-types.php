@@ -2,6 +2,8 @@
 
 class DcfCustomPostType {
 
+	const POST_TYPE_SMART_START = 'smart-start';
+
 	public static function register_custom_post_types() {
 		DcfCustomPostType::register_keynote();
 		DcfCustomPostType::register_video();
@@ -9,6 +11,8 @@ class DcfCustomPostType {
 		DcfCustomPostType::register_webinar();
 		DcfCustomPostType::register_smart_start();
 		DcfCustomPostType::register_the_zone_method();
+		DcfCustomPostType::register_client();
+		DcfCustomPostType::register_zone_experience();
 	}
 
 	public static function register_keynote() {
@@ -257,7 +261,7 @@ class DcfCustomPostType {
 	private static function register_smart_start() {
 
 		add_action( 'init', function () {
-			register_post_type( 'smart-start', array(
+			register_post_type( self::POST_TYPE_SMART_START, array(
 				'labels'                => array(
 					'name'               => __( 'Smart starts', 'YOUR-TEXTDOMAIN' ),
 					'singular_name'      => __( 'Smart start', 'YOUR-TEXTDOMAIN' ),
@@ -295,7 +299,7 @@ class DcfCustomPostType {
 
 			$permalink = get_permalink( $post );
 
-			$messages['smart-start'] = array(
+			$messages[self::POST_TYPE_SMART_START] = array(
 				0  => '', // Unused. Messages start at index 1.
 				1  => sprintf( __( 'Smart start updated. <a target="_blank" href="%s">View smart start</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
 				2  => __( 'Custom field updated.', 'YOUR-TEXTDOMAIN' ),
@@ -370,6 +374,129 @@ class DcfCustomPostType {
 					// translators: Publish box date format, see http://php.net/date
 					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
 				10 => sprintf( __( 'The zone method draft updated. <a target="_blank" href="%s">Preview the zone method</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			);
+
+			return $messages;
+		} );
+	}
+
+	private static function register_client() {
+		add_action( 'init', function () {
+			register_post_type( 'client', array(
+				'labels'                => array(
+					'name'               => __( 'Clients', 'YOUR-TEXTDOMAIN' ),
+					'singular_name'      => __( 'Client', 'YOUR-TEXTDOMAIN' ),
+					'all_items'          => __( 'All Clients', 'YOUR-TEXTDOMAIN' ),
+					'new_item'           => __( 'New client', 'YOUR-TEXTDOMAIN' ),
+					'add_new'            => __( 'Add New', 'YOUR-TEXTDOMAIN' ),
+					'add_new_item'       => __( 'Add New client', 'YOUR-TEXTDOMAIN' ),
+					'edit_item'          => __( 'Edit client', 'YOUR-TEXTDOMAIN' ),
+					'view_item'          => __( 'View client', 'YOUR-TEXTDOMAIN' ),
+					'search_items'       => __( 'Search clients', 'YOUR-TEXTDOMAIN' ),
+					'not_found'          => __( 'No clients found', 'YOUR-TEXTDOMAIN' ),
+					'not_found_in_trash' => __( 'No clients found in trash', 'YOUR-TEXTDOMAIN' ),
+					'parent_item_colon'  => __( 'Parent client', 'YOUR-TEXTDOMAIN' ),
+					'menu_name'          => __( 'Clients', 'YOUR-TEXTDOMAIN' ),
+				),
+				'public'                => true,
+				'hierarchical'          => false,
+				'show_ui'               => true,
+				'show_in_nav_menus'     => true,
+				'supports'              => array( 'title', 'editor', 'thumbnail' ),
+				'has_archive'           => true,
+				'rewrite'               => true,
+				'query_var'             => true,
+				'menu_icon'             => 'dashicons-admin-post',
+				'show_in_rest'          => true,
+				'rest_base'             => 'client',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+			) );
+
+		} );
+
+
+		add_filter( 'post_updated_messages', function ( $messages ) {
+			global $post;
+
+			$permalink = get_permalink( $post );
+
+			$messages['client'] = array(
+				0  => '', // Unused. Messages start at index 1.
+				1  => sprintf( __( 'Client updated. <a target="_blank" href="%s">View client</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				2  => __( 'Custom field updated.', 'YOUR-TEXTDOMAIN' ),
+				3  => __( 'Custom field deleted.', 'YOUR-TEXTDOMAIN' ),
+				4  => __( 'Client updated.', 'YOUR-TEXTDOMAIN' ),
+				/* translators: %s: date and time of the revision */
+				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Client restored to revision from %s', 'YOUR-TEXTDOMAIN' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+				6  => sprintf( __( 'Client published. <a href="%s">View client</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				7  => __( 'Client saved.', 'YOUR-TEXTDOMAIN' ),
+				8  => sprintf( __( 'Client submitted. <a target="_blank" href="%s">Preview client</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+				9  => sprintf( __( 'Client scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview client</a>', 'YOUR-TEXTDOMAIN' ),
+					// translators: Publish box date format, see http://php.net/date
+					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
+				10 => sprintf( __( 'Client draft updated. <a target="_blank" href="%s">Preview client</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			);
+
+			return $messages;
+		} );
+	}
+
+	private static function register_zone_experience() {
+		add_action( 'init', function () {
+			register_post_type( 'zone-experience', array(
+				'labels'                => array(
+					'name'               => __( 'Zone experiences', 'YOUR-TEXTDOMAIN' ),
+					'singular_name'      => __( 'Zone experience', 'YOUR-TEXTDOMAIN' ),
+					'all_items'          => __( 'All Zone experiences', 'YOUR-TEXTDOMAIN' ),
+					'new_item'           => __( 'New zone experience', 'YOUR-TEXTDOMAIN' ),
+					'add_new'            => __( 'Add New', 'YOUR-TEXTDOMAIN' ),
+					'add_new_item'       => __( 'Add New zone experience', 'YOUR-TEXTDOMAIN' ),
+					'edit_item'          => __( 'Edit zone experience', 'YOUR-TEXTDOMAIN' ),
+					'view_item'          => __( 'View zone experience', 'YOUR-TEXTDOMAIN' ),
+					'search_items'       => __( 'Search zone experiences', 'YOUR-TEXTDOMAIN' ),
+					'not_found'          => __( 'No zone experiences found', 'YOUR-TEXTDOMAIN' ),
+					'not_found_in_trash' => __( 'No zone experiences found in trash', 'YOUR-TEXTDOMAIN' ),
+					'parent_item_colon'  => __( 'Parent zone experience', 'YOUR-TEXTDOMAIN' ),
+					'menu_name'          => __( 'Zone experiences', 'YOUR-TEXTDOMAIN' ),
+				),
+				'public'                => true,
+				'hierarchical'          => false,
+				'show_ui'               => true,
+				'show_in_nav_menus'     => true,
+				'supports'              => array( 'title', 'editor', 'thumbnail' ),
+				'has_archive'           => true,
+				'rewrite'               => true,
+				'query_var'             => true,
+				'menu_icon'             => 'dashicons-admin-post',
+				'show_in_rest'          => true,
+				'rest_base'             => 'zone-experience',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+			) );
+
+		} );
+
+
+
+		add_filter( 'post_updated_messages', function ( $messages ) {
+			global $post;
+
+			$permalink = get_permalink( $post );
+
+			$messages['zone-experience'] = array(
+				0  => '', // Unused. Messages start at index 1.
+				1  => sprintf( __( 'Zone experience updated. <a target="_blank" href="%s">View zone experience</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				2  => __( 'Custom field updated.', 'YOUR-TEXTDOMAIN' ),
+				3  => __( 'Custom field deleted.', 'YOUR-TEXTDOMAIN' ),
+				4  => __( 'Zone experience updated.', 'YOUR-TEXTDOMAIN' ),
+				/* translators: %s: date and time of the revision */
+				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Zone experience restored to revision from %s', 'YOUR-TEXTDOMAIN' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+				6  => sprintf( __( 'Zone experience published. <a href="%s">View zone experience</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				7  => __( 'Zone experience saved.', 'YOUR-TEXTDOMAIN' ),
+				8  => sprintf( __( 'Zone experience submitted. <a target="_blank" href="%s">Preview zone experience</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+				9  => sprintf( __( 'Zone experience scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview zone experience</a>', 'YOUR-TEXTDOMAIN' ),
+					// translators: Publish box date format, see http://php.net/date
+					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
+				10 => sprintf( __( 'Zone experience draft updated. <a target="_blank" href="%s">Preview zone experience</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
 			);
 
 			return $messages;
