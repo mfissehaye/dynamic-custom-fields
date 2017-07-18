@@ -13,6 +13,9 @@ class DcfCustomPostType {
 		DcfCustomPostType::register_the_zone_method();
 		DcfCustomPostType::register_client();
 		DcfCustomPostType::register_zone_experience();
+		DcfCustomPostType::register_audio_book();
+		DcfCustomPostType::register_testimony();
+		DcfCustomPostType::register_keynote_testimony();
 	}
 
 	public static function register_keynote() {
@@ -299,7 +302,7 @@ class DcfCustomPostType {
 
 			$permalink = get_permalink( $post );
 
-			$messages[self::POST_TYPE_SMART_START] = array(
+			$messages[ self::POST_TYPE_SMART_START ] = array(
 				0  => '', // Unused. Messages start at index 1.
 				1  => sprintf( __( 'Smart start updated. <a target="_blank" href="%s">View smart start</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
 				2  => __( 'Custom field updated.', 'YOUR-TEXTDOMAIN' ),
@@ -476,7 +479,6 @@ class DcfCustomPostType {
 		} );
 
 
-
 		add_filter( 'post_updated_messages', function ( $messages ) {
 			global $post;
 
@@ -497,6 +499,191 @@ class DcfCustomPostType {
 					// translators: Publish box date format, see http://php.net/date
 					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
 				10 => sprintf( __( 'Zone experience draft updated. <a target="_blank" href="%s">Preview zone experience</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			);
+
+			return $messages;
+		} );
+	}
+
+	private static function register_audio_book() {
+
+		add_action( 'init', function () {
+			register_post_type( 'audio-book', array(
+				'labels'                => array(
+					'name'               => __( 'Audio books', 'YOUR-TEXTDOMAIN' ),
+					'singular_name'      => __( 'Audio book', 'YOUR-TEXTDOMAIN' ),
+					'all_items'          => __( 'All Audio books', 'YOUR-TEXTDOMAIN' ),
+					'new_item'           => __( 'New audio book', 'YOUR-TEXTDOMAIN' ),
+					'add_new'            => __( 'Add New', 'YOUR-TEXTDOMAIN' ),
+					'add_new_item'       => __( 'Add New audio book', 'YOUR-TEXTDOMAIN' ),
+					'edit_item'          => __( 'Edit audio book', 'YOUR-TEXTDOMAIN' ),
+					'view_item'          => __( 'View audio book', 'YOUR-TEXTDOMAIN' ),
+					'search_items'       => __( 'Search audio books', 'YOUR-TEXTDOMAIN' ),
+					'not_found'          => __( 'No audio books found', 'YOUR-TEXTDOMAIN' ),
+					'not_found_in_trash' => __( 'No audio books found in trash', 'YOUR-TEXTDOMAIN' ),
+					'parent_item_colon'  => __( 'Parent audio book', 'YOUR-TEXTDOMAIN' ),
+					'menu_name'          => __( 'Audio books', 'YOUR-TEXTDOMAIN' ),
+				),
+				'public'                => true,
+				'hierarchical'          => false,
+				'show_ui'               => true,
+				'show_in_nav_menus'     => true,
+				'supports'              => array( 'title', 'editor', 'thumbnail' ),
+				'has_archive'           => true,
+				'rewrite'               => true,
+				'query_var'             => true,
+				'menu_icon'             => 'dashicons-admin-post',
+				'show_in_rest'          => true,
+				'rest_base'             => 'audio-book',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+			) );
+
+		} );
+
+
+		add_filter( 'post_updated_messages', function ( $messages ) {
+			global $post;
+
+			$permalink = get_permalink( $post );
+
+			$messages['audio-book'] = array(
+				0  => '', // Unused. Messages start at index 1.
+				1  => sprintf( __( 'Audio book updated. <a target="_blank" href="%s">View audio book</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				2  => __( 'Custom field updated.', 'YOUR-TEXTDOMAIN' ),
+				3  => __( 'Custom field deleted.', 'YOUR-TEXTDOMAIN' ),
+				4  => __( 'Audio book updated.', 'YOUR-TEXTDOMAIN' ),
+				/* translators: %s: date and time of the revision */
+				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Audio book restored to revision from %s', 'YOUR-TEXTDOMAIN' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+				6  => sprintf( __( 'Audio book published. <a href="%s">View audio book</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				7  => __( 'Audio book saved.', 'YOUR-TEXTDOMAIN' ),
+				8  => sprintf( __( 'Audio book submitted. <a target="_blank" href="%s">Preview audio book</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+				9  => sprintf( __( 'Audio book scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview audio book</a>', 'YOUR-TEXTDOMAIN' ),
+					// translators: Publish box date format, see http://php.net/date
+					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
+				10 => sprintf( __( 'Audio book draft updated. <a target="_blank" href="%s">Preview audio book</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			);
+
+			return $messages;
+		} );
+	}
+
+	private static function register_testimony() {
+
+		add_action( 'init', function () {
+			register_post_type( 'testimony', array(
+				'labels'                => array(
+					'name'               => __( 'Testimonies', 'YOUR-TEXTDOMAIN' ),
+					'singular_name'      => __( 'Testimony', 'YOUR-TEXTDOMAIN' ),
+					'all_items'          => __( 'All Testimonies', 'YOUR-TEXTDOMAIN' ),
+					'new_item'           => __( 'New testimony', 'YOUR-TEXTDOMAIN' ),
+					'add_new'            => __( 'Add New', 'YOUR-TEXTDOMAIN' ),
+					'add_new_item'       => __( 'Add New testimony', 'YOUR-TEXTDOMAIN' ),
+					'edit_item'          => __( 'Edit testimony', 'YOUR-TEXTDOMAIN' ),
+					'view_item'          => __( 'View testimony', 'YOUR-TEXTDOMAIN' ),
+					'search_items'       => __( 'Search testimonies', 'YOUR-TEXTDOMAIN' ),
+					'not_found'          => __( 'No testimonies found', 'YOUR-TEXTDOMAIN' ),
+					'not_found_in_trash' => __( 'No testimonies found in trash', 'YOUR-TEXTDOMAIN' ),
+					'parent_item_colon'  => __( 'Parent testimony', 'YOUR-TEXTDOMAIN' ),
+					'menu_name'          => __( 'Testimonies', 'YOUR-TEXTDOMAIN' ),
+				),
+				'public'                => true,
+				'hierarchical'          => false,
+				'show_ui'               => true,
+				'show_in_nav_menus'     => true,
+				'supports'              => array( 'title', 'thumbnail' ),
+				'has_archive'           => true,
+				'rewrite'               => true,
+				'query_var'             => true,
+				'menu_icon'             => 'dashicons-admin-post',
+				'show_in_rest'          => true,
+				'rest_base'             => 'testimony',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+			) );
+
+		} );
+
+		add_filter( 'post_updated_messages', function ( $messages ) {
+			global $post;
+
+			$permalink = get_permalink( $post );
+
+			$messages['testimony'] = array(
+				0  => '', // Unused. Messages start at index 1.
+				1  => sprintf( __( 'Testimony updated. <a target="_blank" href="%s">View testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				2  => __( 'Custom field updated.', 'YOUR-TEXTDOMAIN' ),
+				3  => __( 'Custom field deleted.', 'YOUR-TEXTDOMAIN' ),
+				4  => __( 'Testimony updated.', 'YOUR-TEXTDOMAIN' ),
+				/* translators: %s: date and time of the revision */
+				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Testimony restored to revision from %s', 'YOUR-TEXTDOMAIN' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+				6  => sprintf( __( 'Testimony published. <a href="%s">View testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				7  => __( 'Testimony saved.', 'YOUR-TEXTDOMAIN' ),
+				8  => sprintf( __( 'Testimony submitted. <a target="_blank" href="%s">Preview testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+				9  => sprintf( __( 'Testimony scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview testimony</a>', 'YOUR-TEXTDOMAIN' ),
+					// translators: Publish box date format, see http://php.net/date
+					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
+				10 => sprintf( __( 'Testimony draft updated. <a target="_blank" href="%s">Preview testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+			);
+
+			return $messages;
+		} );
+	}
+
+	private static function register_keynote_testimony() {
+
+		add_action( 'init', function () {
+			register_post_type( 'keynote-testimony', array(
+				'labels'                => array(
+					'name'               => __( 'Keynote testimonies', 'YOUR-TEXTDOMAIN' ),
+					'singular_name'      => __( 'Keynote testimony', 'YOUR-TEXTDOMAIN' ),
+					'all_items'          => __( 'All Keynote testimonies', 'YOUR-TEXTDOMAIN' ),
+					'new_item'           => __( 'New keynote testimony', 'YOUR-TEXTDOMAIN' ),
+					'add_new'            => __( 'Add New', 'YOUR-TEXTDOMAIN' ),
+					'add_new_item'       => __( 'Add New keynote testimony', 'YOUR-TEXTDOMAIN' ),
+					'edit_item'          => __( 'Edit keynote testimony', 'YOUR-TEXTDOMAIN' ),
+					'view_item'          => __( 'View keynote testimony', 'YOUR-TEXTDOMAIN' ),
+					'search_items'       => __( 'Search keynote testimonies', 'YOUR-TEXTDOMAIN' ),
+					'not_found'          => __( 'No keynote testimonies found', 'YOUR-TEXTDOMAIN' ),
+					'not_found_in_trash' => __( 'No keynote testimonies found in trash', 'YOUR-TEXTDOMAIN' ),
+					'parent_item_colon'  => __( 'Parent keynote testimony', 'YOUR-TEXTDOMAIN' ),
+					'menu_name'          => __( 'Keynote testimonies', 'YOUR-TEXTDOMAIN' ),
+				),
+				'public'                => true,
+				'hierarchical'          => false,
+				'show_ui'               => true,
+				'show_in_nav_menus'     => true,
+				'supports'              => array( 'title', 'thumbnail' ),
+				'has_archive'           => true,
+				'rewrite'               => true,
+				'query_var'             => true,
+				'menu_icon'             => 'dashicons-admin-post',
+				'show_in_rest'          => true,
+				'rest_base'             => 'keynote-testimony',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+			) );
+
+		} );
+
+
+		add_filter( 'post_updated_messages', function ( $messages ) {
+			global $post;
+
+			$permalink = get_permalink( $post );
+
+			$messages['keynote-testimony'] = array(
+				0  => '', // Unused. Messages start at index 1.
+				1  => sprintf( __( 'Keynote testimony updated. <a target="_blank" href="%s">View keynote testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				2  => __( 'Custom field updated.', 'YOUR-TEXTDOMAIN' ),
+				3  => __( 'Custom field deleted.', 'YOUR-TEXTDOMAIN' ),
+				4  => __( 'Keynote testimony updated.', 'YOUR-TEXTDOMAIN' ),
+				/* translators: %s: date and time of the revision */
+				5  => isset( $_GET['revision'] ) ? sprintf( __( 'Keynote testimony restored to revision from %s', 'YOUR-TEXTDOMAIN' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+				6  => sprintf( __( 'Keynote testimony published. <a href="%s">View keynote testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( $permalink ) ),
+				7  => __( 'Keynote testimony saved.', 'YOUR-TEXTDOMAIN' ),
+				8  => sprintf( __( 'Keynote testimony submitted. <a target="_blank" href="%s">Preview keynote testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
+				9  => sprintf( __( 'Keynote testimony scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview keynote testimony</a>', 'YOUR-TEXTDOMAIN' ),
+					// translators: Publish box date format, see http://php.net/date
+					date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ), esc_url( $permalink ) ),
+				10 => sprintf( __( 'Keynote testimony draft updated. <a target="_blank" href="%s">Preview keynote testimony</a>', 'YOUR-TEXTDOMAIN' ), esc_url( add_query_arg( 'preview', 'true', $permalink ) ) ),
 			);
 
 			return $messages;

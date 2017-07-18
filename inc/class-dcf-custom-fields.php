@@ -11,20 +11,20 @@ class DcfCustomFields {
 			$prefix = 'dcf-';
 
 			$meta_boxes[] = array(
-				'id'       => 'youtube_embed_code',
-				'title'    => esc_html__( 'Video Options', 'dcf' ),
-				'context'  => 'advanced',
-				'priority' => 'default',
-				'post_types' => array('video'),
-				'autosave' => false,
-				'fields'   => array(
+				'id'         => 'youtube_embed_code',
+				'title'      => esc_html__( 'Video Options', 'dcf' ),
+				'context'    => 'advanced',
+				'priority'   => 'default',
+				'post_types' => array( 'video' ),
+				'autosave'   => false,
+				'fields'     => array(
 					array(
 						'id'   => $prefix . 'youtube_embed_code',
 						'type' => 'textarea',
 						'name' => esc_html__( 'Youtube Embed Code', 'dcf' ),
 					),
 					array(
-						'id' => $prefix . 'show_in_about_page',
+						'id'   => $prefix . 'show_in_about_page',
 						'name' => esc_html__( 'Show in About Page', 'dcf' ),
 						'type' => 'checkbox',
 						'desc' => esc_html__( 'Show this video in about page template', 'dcf' ),
@@ -33,15 +33,15 @@ class DcfCustomFields {
 			);
 
 			$meta_boxes[] = array(
-				'id'       => 'clients',
-				'title'    => esc_html__( 'More Options', 'dcf' ),
-				'context'  => 'advanced',
-				'priority' => 'default',
-				'post_types' => array('client'),
-				'autosave' => false,
-				'fields'   => array(
+				'id'         => 'clients',
+				'title'      => esc_html__( 'More Options', 'dcf' ),
+				'context'    => 'advanced',
+				'priority'   => 'default',
+				'post_types' => array( 'client' ),
+				'autosave'   => false,
+				'fields'     => array(
 					array(
-						'id' => $prefix . 'client_featured',
+						'id'   => $prefix . 'client_featured',
 						'name' => esc_html__( 'Feature this client', 'dcf' ),
 						'type' => 'checkbox',
 						'desc' => esc_html__( 'Featured clients show at the top of the clients page', 'dcf' ),
@@ -50,15 +50,15 @@ class DcfCustomFields {
 			);
 
 			$meta_boxes[] = array(
-				'id'       => 'zone_experience_attributes',
-				'title'    => esc_html__( 'More Zone Experience Options', 'dcf' ),
-				'context'  => 'advanced',
-				'priority' => 'default',
-				'post_types' => array('zone-experience'),
-				'autosave' => false,
-				'fields'   => array(
+				'id'         => 'zone_experience_attributes',
+				'title'      => esc_html__( 'More Zone Experience Options', 'dcf' ),
+				'context'    => 'advanced',
+				'priority'   => 'default',
+				'post_types' => array( 'zone-experience' ),
+				'autosave'   => false,
+				'fields'     => array(
 					array(
-						'id' => $prefix . 'zone_experience_icon',
+						'id'   => $prefix . 'zone_experience_icon',
 						'type' => 'image_advanced',
 						'name' => esc_html__( 'Zone Experience Icon', 'dcf' ),
 					),
@@ -66,19 +66,44 @@ class DcfCustomFields {
 			);
 
 			$meta_boxes[] = array(
-				'id'       => 'page_attributes',
-				'title'    => esc_html__( 'Page Attributes', 'dcf' ),
-				'context'  => 'advanced',
-				'priority' => 'default',
-				'post_types' => array('page'),
-				'autosave' => false,
-				'fields'   => array(
+				'id'         => 'page_attributes',
+				'title'      => esc_html__( 'Page Attributes', 'dcf' ),
+				'context'    => 'advanced',
+				'priority'   => 'default',
+				'post_types' => array( 'page' ),
+				'autosave'   => false,
+				'fields'     => array(
 					array(
 						'id'   => $prefix . 'page_subtitle',
 						'type' => 'text',
 						'name' => esc_html__( 'Page Subtitle', 'dcf' ),
 					)
 				),
+			);
+
+			$meta_boxes[] = array(
+				'id'         => 'testimonial_attributes',
+				'title'      => esc_html__( 'Testimonial Attributes', 'dcf' ),
+				'context'    => 'advanced',
+				'priority'   => 'default',
+				'post_types' => array( 'testimony', 'keynote-testimony' ),
+				'fields'     => array(
+					array(
+						'id'   => $prefix . 'testimony',
+						'type' => 'textarea',
+						'name' => esc_html__( 'The Testimony', 'dcf' )
+					),
+					array(
+						'id'   => $prefix . 'author',
+						'type' => 'text',
+						'name' => esc_html__( 'The author of the testimony', 'dcf' )
+					),
+					array(
+						'id'   => $prefix . 'author-position',
+						'type' => 'text',
+						'name' => esc_html__( 'The position of the author', 'dcf' )
+					)
+				)
 			);
 
 			return $meta_boxes;
