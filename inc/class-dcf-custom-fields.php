@@ -45,6 +45,12 @@ class DcfCustomFields {
 						'name' => esc_html__( 'Feature this client', 'dcf' ),
 						'type' => 'checkbox',
 						'desc' => esc_html__( 'Featured clients show at the top of the clients page', 'dcf' ),
+					),
+					array(
+						'id'   => $prefix . 'external_link',
+						'name' => esc_html__( 'External Link', 'dcf' ),
+						'type' => 'text',
+						'desc' => esc_html__( 'External link to the client', 'dcf' ),
 					)
 				),
 			);
