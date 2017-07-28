@@ -51,6 +51,24 @@ class DcfCustomFields {
 						'name' => esc_html__( 'External Link', 'dcf' ),
 						'type' => 'text',
 						'desc' => esc_html__( 'External link to the client', 'dcf' ),
+					),
+					array(
+						'id'   => $prefix . 'modal_client_testimony',
+						'name' => esc_html__( 'Modal Client Testimony', 'dcf' ),
+						'type' => 'text',
+						'desc' => esc_html__( 'Enter the modal client desccription', 'dcf' ),
+					),
+					array(
+						'id'   => $prefix . 'modal_client_author',
+						'name' => esc_html__( 'Modal Client Author', 'dcf' ),
+						'type' => 'text',
+						'desc' => esc_html__( 'Enter the modal client author', 'dcf' ),
+					),
+					array(
+						'id'   => $prefix . 'modal_client_position',
+						'name' => esc_html__( 'Modal Client Position', 'dcf' ),
+						'type' => 'text',
+						'desc' => esc_html__( 'Enter the modal client position', 'dcf' ),
 					)
 				),
 			);
