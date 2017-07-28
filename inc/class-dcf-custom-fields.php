@@ -55,7 +55,7 @@ class DcfCustomFields {
 					array(
 						'id'   => $prefix . 'modal_client_testimony',
 						'name' => esc_html__( 'Modal Client Testimony', 'dcf' ),
-						'type' => 'text',
+						'type' => 'textarea',
 						'desc' => esc_html__( 'Enter the modal client desccription', 'dcf' ),
 					),
 					array(
